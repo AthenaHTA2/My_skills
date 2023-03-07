@@ -227,4 +227,4 @@
             svgPieChartParent.appendChild(svgElment);
         }
         }
-        }          
+        }
