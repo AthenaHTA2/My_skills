@@ -64,11 +64,11 @@ var requestOptions = {
           let totalXP = xpTotal
           let progName = data.data.progress[0].object.name;
           let progUpdatedAt = data.data.progress[0].updatedAt;
-          //incorrect, as it assigns the largest, not the most recent project's xp in array
+          //incorrect, as it assigns the largest xp in array
           let xpAmount = data.data.transaction[0].amount;
           let hGrade = data.data.progress[0].grade;
           //populate an array with profile data
-          let profileHelena = [hlogin,hId,hCampus,totalXP,progName,progUpdatedAt,xpAmount, hGrade];
+        let profileHelena = [hlogin,hId,hCampus,totalXP,progName,progUpdatedAt,xpAmount, hGrade];
           //console.log(profileHelena);
           //populate the 'Profile' section on 'At-a-glance' tab ==>moved after the 'projects' details to show correct XPs
           showProfile(profileHelena);
@@ -101,11 +101,13 @@ var requestOptions = {
             helenaProjects.push(oneProject);
           }
           }
+          console.log("the helenaProjects array:==>", helenaProjects)
+
           //get xp for latest project
-            let xpAmountCorrect = helenaProjects[0][2];
-            profileHelena = [hlogin,hId,hCampus,totalXP,progName,progUpdatedAt,xpAmountCorrect, hGrade];
+          let xpAmountCorrect = helenaProjects[0][2];
+          profileHelena = [hlogin,hId,hCampus,totalXP,progName,progUpdatedAt,xpAmountCorrect, hGrade];
           //populate the 'Profile' section on 'At-a-glance' tab, including correct XPs
-            showProfile(profileHelena);
+          showProfile(profileHelena);
           //console.log("correct XP for last project?===>",profileHelena)
           //populate the 'Projects list' section of the 'At-a-glance'tab
             showProjects(helenaProjects)
@@ -146,13 +148,17 @@ var requestOptions = {
 
       //populate the 'Profile' section on 'At-a-glance' tab
       function showProfile(data){
+        console.log("data from showProfile:===>",data)
         var i, helenaProf;
+        let lastIndex = data.length -1
+        let grade = data[lastIndex]
+        grade = grade.toFixed(1)
         helenaProf = document.querySelector("#addData");
-        console.log(helenaProf)
+        console.log("the profile data-->",data)
         for (i = 0; i< data.length; i++){
           helenaProf.innerHTML = `
           <div class="hProfile">
-          <p >`+ "Login: " + data[0] + ",   ID: " + data[1] + `</p>
+          <p >`+ "Login: " + data[0] + ",   ID: " + grade + `</p>
           <p >`+ "Campus: " + data[2] + `</p>
           <p >`+ "Sum of XP for all projects: " + numberWithCommas(data[3]) + `</p>
           <p >`+ "Latest project: " + data[4] + `</p>
@@ -398,6 +404,3 @@ var requestOptions = {
                       dd + " " + month + " " + yyyy;
                     return fullDate;
                   };
-
-
-
