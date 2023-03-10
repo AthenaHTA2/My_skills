@@ -4,10 +4,7 @@
 }
 
 img{
-
-    height: 200px;
     max-width: auto;
-
 }
 
 /*to include each element's border and padding inside its width/height*/
