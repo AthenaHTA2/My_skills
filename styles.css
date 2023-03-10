@@ -3,6 +3,11 @@
     color: greenyellow;
 }
 
+img{
+    width: 500px;
+    height: 200px;
+}
+
 /*to include each element's border and padding inside its width/height*/
 * {box-sizing: border-box}
 
