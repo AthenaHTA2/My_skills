@@ -10,6 +10,7 @@ img{
     height: 15%;
     width: 40%;
     object-fit: cover;
+    background-color: #d7e3fc;
 }
 
 /*to include each element's border and padding inside its width/height*/
@@ -55,7 +56,6 @@ body, html {
 /*contains the four 'Profile' cards*/
 section
 {
-
     align-items: center;
     justify-content: center;
 }
