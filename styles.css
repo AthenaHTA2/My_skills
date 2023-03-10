@@ -2,7 +2,7 @@
     font-family: 'Sirin Stencil', cursive;
     color: greenyellow;
 }
-
+/*random image on project details tab*/
 img{
     display: block;
     margin-left: auto;
@@ -10,6 +10,11 @@ img{
     height: 15%;
     width: 40%;
     object-fit: cover;
+    background-color: #d7e3fc;
+}
+
+/*turn picture background on project details tab to blue*/
+.color{
     background-color: #d7e3fc;
 }
 
