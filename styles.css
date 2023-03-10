@@ -10,12 +10,11 @@ img{
     height: 15%;
     width: 40%;
     object-fit: cover;
-    background-color: #d7e3fc;
 }
 
 /*turn picture background on project details tab to blue*/
 .color{
-    background-color: #d7e3fc;
+     background:#d7e3fc;
 }
 
 /*to include each element's border and padding inside its width/height*/
