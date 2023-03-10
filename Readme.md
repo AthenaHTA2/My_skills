@@ -1,12 +1,17 @@
 01F JavaScript project #3: Graphql
 
+  
+My 'graphql' project is deployed on netlify and on github: 
+
+https://tranquil-genie-b49c6d.netlify.app
+https://athenahta2.github.io/My_skills/  
+
 Project APIs:
 graphiql: https://learn.01founders.co/graphiql
 fetch requests: https://learn.01founders.co/api/graphql-engine/v1/graphql
 
 
-
-Project road-map:
+Project tasks:
 
 step 1: 
 In VSC terminal type: curl "https://learn.01founders.co/graphiql/api/graphql-engine/v1/graphql" --data '{"query":"{user{userid login}}"}'
@@ -34,8 +39,6 @@ step5: write svg code to graph data.
 
 Below is my graphql query, used for: profile data, projects' details, XP by project line graph, %points by skill pie chart
 API: https://learn.01founders.co/api/graphql-engine/v1/graphql
-
-
 
 {
     user(where: {login: {_eq: "login"}}) {
@@ -86,13 +89,4 @@ fragment HelenaProgress on progress{
           name
         }
   }
-  
-My 'graphql' project is deployed on netlify and on github: 
-
-https://tranquil-genie-b49c6d.netlify.app
-https://athenahta2.github.io/My_skills/  
-
-
-
-
 
