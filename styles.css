@@ -4,7 +4,10 @@
 }
 
 img{
-    max-width: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
 }
 
 /*to include each element's border and padding inside its width/height*/
