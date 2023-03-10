@@ -1,7 +1,7 @@
 01F JavaScript project #3: Graphql
 
   
-My 'graphql' project is deployed on netlify and on github: 
+This project is deployed on netlify and on github: 
 
 https://tranquil-genie-b49c6d.netlify.app
 https://athenahta2.github.io/My_skills/  
