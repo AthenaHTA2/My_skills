@@ -3,6 +3,27 @@ import { JSDOM as _JSDOM } from "jsdom";
 var JSDOM = _JSDOM;
 global.document = new JSDOM("html://localhost:5500").window.document;*/
 
+// ==============> Here I generate a Jason Web Token (JWT) <======================
+const signinUrl = 'https://learn.01founders.co/api/auth/signin';
+const credentials = 'AthenaHTA2:Ath8na2Win'; 
+
+const response = await fetch(signinUrl, {
+  method: 'POST',
+  headers: {
+    'Authorization': `Basic ${btoa(credentials)}`,
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    // can include other parameters if needed
+  }),
+});
+
+const { token } = await response.json(); // assuming the response returns a JSON 
+console.log({token});
+//object with the token property
+
+// =============> End of JWT generation <===============
+
 
 //===========> I partly used the 'Postman' appication to build the below 'Javascript Fetch: <=======
 // the array of IT skills objects
