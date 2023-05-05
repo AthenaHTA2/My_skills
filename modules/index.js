@@ -4,7 +4,7 @@ var JSDOM = _JSDOM;
 global.document = new JSDOM("html://localhost:5500").window.document;*/
 
 // ==============> Here I generate a Jason Web Token (JWT) <======================
-const signinUrl = 'https://learn.01founders.co/api/auth/signin';
+/*const signinUrl = 'https://learn.01founders.co/api/auth/signin';
 const credentials = 'AthenaHTA2:Ath8na2Win'; 
 
 const response = await fetch(signinUrl, {
@@ -19,7 +19,7 @@ const response = await fetch(signinUrl, {
 });
 
 const { token } = await response.json(); // assuming the response returns a JSON 
-console.log({token});
+console.log({token});*/
 //object with the token property
 
 // =============> End of JWT generation <===============
