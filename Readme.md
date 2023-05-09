@@ -36,9 +36,23 @@ step4: decide which data you need in order to build three sections from list bel
 step4: write some graphql queries to retrieve data.
 step5: write svg code to graph data.
 
+# Generate a jason web token (jwt) to gain access to Gitea data
+# The Postman approach:
 
-Below is my graphql query, used for: profile data, projects' details, XP by project line graph, %points by skill pie chart
-API: https://learn.01founders.co/api/graphql-engine/v1/graphql
+In Postman, create a new collection. Click on the 'Authorization' tab and choose Type: 'Basic Authentication'.
+Input your Username and Password and press the 'Send' button to generate a jwt. 
+Click on the '</>' symbol and select 'JavaScript-Fetch' in the 'Code snippet' drop-down box to view the corresponding JavaScript fetch function.
+
+Alternatively, in 'Authorization' tab choose 'Type' = 'Bearer Token', 
+and paste the above jwt in the text box to the right.
+Next, select the 'Body' tab, write your graphql query in the 'QUERY' window, and press the 'Send' button to view the data.
+You can also click on the '</>' symbol and select 'JavaScript-Fetch' 'Code snippet' to view the JavaScript fetch function.
+
+# The graphql query:
+
+the API: https://learn.01founders.co/api/graphql-engine/v1/graphql
+my graphql query, used for profile data, projects' details,  
+XP by project line graph, XP by task pie chart.
 
 {
     user(where: {login: {_eq: "login"}}) {
@@ -59,7 +73,7 @@ API: https://learn.01founders.co/api/graphql-engine/v1/graphql
     ) {
       ...HelenaXP
     }
-    tasksTypes:  transaction(where: { userId: { _eq: userid }, type: {_like: "%skill%"}}){
+    tasksTypes:  transaction(where: { userId: { _eq: userId }, type: {_like: "%skill%"}}){
         type
         amount
       }
@@ -89,4 +103,3 @@ fragment HelenaProgress on progress{
           name
         }
   }
-
