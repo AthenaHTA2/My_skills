@@ -1,5 +1,5 @@
     //draws the line graph showing XPs by project
-    //My skills pie chart was inspired by: https://www.youtube.com/watch?v=XEUCs7Sh8FI
+//My skills pie chart was inspired by: https://www.youtube.com/watch?v=XEUCs7Sh8FI
 
     //array structure: ['real-time-forum', '2023-03-07T11:39:..', 103500, '1.50', 101191']
       function XpByProjectLineGraph(array, frequency, linecount) {
@@ -11,9 +11,14 @@
         const svgPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
         // svgPath.style.height = "180px";
         const numProjects = array.length;
- 
-        let maxVal = array[numProjects-1][2];
+        let xpOnly =[]
+        for(let i = 0; i < numProjects; i++){
+          xpOnly.push(array[i][2])
+        }
+       // let maxVal = array[numProjects-1][2];
+       let maxVal = Math.max(...xpOnly)
         console.log("the maximum value of xp===>",maxVal)
+
         maxVal = maxVal.toFixed(1)/1000;
         console.log("the largest XP in line graph:--->",maxVal);
  
@@ -108,30 +113,33 @@
  
           }
 
+    //Event listener on SelectSkill and 'getSkill function
+    //are used in index.js line 
+    // //add event listener to the pie-chart drop-down selection box
+    SelectSkill = document.querySelector("#Skills");
 
-    //add event listener to the pie-chart drop-down selection box
     SelectSkill.onchange = ()=>{
         //skill selected in drop-down box
-        let theSkill = getSkill();
+        TheSkill = getSkill();
         //makes pie chart for each skill % of total skills 
-        skillPercentage(theSkill, allSkills, SkillObjects);
-        // console.log("All skills point accessible in event listener? ===",allSkills);
-        // console.log("All skills array accessible in event listener? ===",SkillObjects);
+        skillPercentage(TheSkill, AllSkills, SkillObjects);
         }
 
-
-    // get skill from drop-down selection box
+    // // get skill from drop-down selection box
     const getSkill = () => {
+
         var chosenSkill = SelectSkill.options[SelectSkill.selectedIndex].text;
         
         return chosenSkill
     }
-    // console.log("drop-down selection is: --->",getSkill())
+
+
 
 
     //draws a pie chart wedge for the selected skill
     //pie chart inspired by: https://www.youtube.com/watch?v=XEUCs7Sh8FI
-    function skillPercentage(chosenSkill, allSkillsPoints, SkillObjects){
+    //function skillPercentage(chosenSkill, allSkillsPoints, SkillObjects){
+    function skillPercentage(TheSkill, AllSkills, SkillObjects){
         const svgPieChartParent = document.getElementById("pieChart");
         console.log("the skills array:===>",SkillObjects)
         //remove previous pie graph elements
@@ -142,10 +150,10 @@
         svgPieChartParent
         for(let i=0; i<SkillObjects.length; i++){
         let oneObject = SkillObjects[i]
-        if(oneObject.name == chosenSkill){
+        if(oneObject.name == TheSkill){
             let skillColour = oneObject.color;
             //% of total skills
-            let skillPerc = (oneObject.skill_points / allSkillsPoints) * 100 ;
+            let skillPerc = (oneObject.skill_points / AllSkills) * 100 ;
             skillPerc = skillPerc.toFixed(1);
             // console.log("new skill & ===>",skillPerc)
             //percentage of the pie circumference, remember r1 = 100px
@@ -159,7 +167,7 @@
             let cy = "100";
             //set strWidth same as radius of circle1
             let strWidth = "100";
-            let txt = chosenSkill + " " + skillPerc + "%"
+            let txt = TheSkill + " " + skillPerc + "%"
             //the div that contains the drop-down list and the pie chart
             //the svg element
             const svgElment = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -227,4 +235,4 @@
             svgPieChartParent.appendChild(svgElment);
         }
         }
-        }
+        }        
