@@ -20,8 +20,8 @@
 </head>
 <body class="textClass">
 
-<button class="tablink" onclick="openPage('Profile', this, '#eaf8da')" >At a glance</button>
-<button class="tablink" onclick="openPage('Projects', this, '#d7e3fc')" id="defaultOpen">Projects details</button>
+<button class="tablink" onclick="openPage('Profile', this, '#eaf8da')" id="defaultOpen">At a glance</button>
+<button class="tablink" onclick="openPage('Projects', this, '#d7e3fc')" >Projects details</button>
 <!-- <button class="tablink" onclick="openPage('Analysis', this, '#f7f7f7')">IT Skills</button>
 <button class="tablink" onclick="openPage('Charts', this, '#fffae5')">Charts</button>
 <button class="tablink" onclick="openPage('Instructions', this, '#C3FF99')">Graphql instructions</button> -->
@@ -29,6 +29,7 @@
 
 <div id="Profile" class="tabcontent">
   <section>
+      <h3 id="error-message"> JWT error </h3>
     <div class="container table">
       <!-- implementing a 2x2 'table' or 'grid' -->
       <div class="row">
@@ -479,8 +480,9 @@
       Attempts for each exercise<br>
     </div> -->
 
-  <script src="./modules/index.js"></script>
   <script src="./modules/graphs.js"></script>
+  <script type="text/javascript" src="./modules/index.js"></script>
+  <script type="text/javascript" src="./modules/graphs.js"></script>
   <script src="https://d3js.org/d3.v4.min.js"></script>
 </body>
 </html>
