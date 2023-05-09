@@ -1,43 +1,35 @@
-/*to run in node
-import { JSDOM as _JSDOM } from "jsdom";
-var JSDOM = _JSDOM;
-global.document = new JSDOM("html://localhost:5500").window.document;*/
+//variables to be used in graphs.js's skillPercentage(TheSkill, AllSkills, SkillObjects) function
+//let SelectSkill = document.querySelector("#Skills");
+var TheSkill;
+var AllSkills;
+var SkillObjects = [];
 
-// ==============> Here I generate a Jason Web Token (JWT) <======================
-/*const signinUrl = 'https://learn.01founders.co/api/auth/signin';
-const credentials = 'AthenaHTA2:Ath8na2Win'; 
-
-const response = await fetch(signinUrl, {
-  method: 'POST',
-  headers: {
-    'Authorization': `Basic ${btoa(credentials)}`,
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    // can include other parameters if needed
-  }),
-});
-
-const { token } = await response.json(); // assuming the response returns a JSON 
-console.log({token});*/
-//object with the token property
-
-// =============> End of JWT generation <===============
-
-
-//===========> I partly used the 'Postman' appication to build the below 'Javascript Fetch: <=======
-// the array of IT skills objects
-var SkillObjects = []
-var allSkills = 0
-// the IT skills drop-down selection box
-let SelectSkill = document.getElementById("Skills")
-
-// fetch starts here
 var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Authorization", "Basic c2VkbWFraDJAZ21haWwuY29tOkF0aDhuYTJXaW4=");
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  redirect: 'follow'
+};
+
+const token = fetch("https://learn.01founders.co/api/auth/signin", requestOptions)
+  .then(response => response.text())
+  .catch(error => console.log('error', error));
+
+
+  //Now I no longer need to importing the jwt from token.mjs
+  //import token from "./token.mjs"
+
+
+//This is the amended code from Salah's getData.mjs
+(async()=>{
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `Bearer ${(await token).replaceAll('"',"")}`);
 
 var graphql = JSON.stringify({
-  query: "{\n    user(where: {login: {_eq: \"AthenaHTA2\"}}) {\n      ...HelenaId\n    }\n    progress(\n      where: {_and: [{user: {login: {_eq: \"AthenaHTA2\"}}}, {object: {type: {_eq: \"project\"}}}, {isDone: {_eq: true}}, {grade: {_neq: 0}}]}\n      order_by: {updatedAt: desc}\n      \n    ) {\n      ...HelenaProgress\n    }\n    transaction(\n      where: {_and: [{user: {login: {_eq: \"AthenaHTA2\"}}}, {object: {type: {_eq: \"project\"}}}, {type: {_eq: \"xp\"}}]}\n      order_by: {amount:desc}\n    ) {\n      ...HelenaXP\n    }\n\n    tasksTypes:   transaction(where: { userId: { _eq: 715 }, type: {_like: \"%skill%\"}}){\n        type\n        amount\n      }\n      \n  }\n  \n    fragment HelenaId on user{\n   login\n    id\n    }\n    \n    fragment HelenaProgress on progress{\n        id\n      grade\n      createdAt\n      updatedAt\n      object {\n        id\n        name\n      campus\n}\n    }\n    \n    fragment HelenaXP on transaction{\n      amount\n      createdAt\n      object {\n        id\n        name\n      }\n    }",
+  query: "{\n    user(where: {login: {_eq: \"AthenaHTA2\"}}) {\n			...HelenaId\n    }\n  \n \n    progress(\n      where: {_and: [{user: {login: {_eq: \"AthenaHTA2\"}}}, {object: {type: {_eq: \"project\"}}}, {isDone: {_eq: true}}, {grade: {_neq: 0}}]}\n      order_by: {updatedAt: desc}\n      \n    ) {\n      ...HelenaProgress\n    }\n    transaction(\n      where: {_and: [{user: {login: {_eq: \"AthenaHTA2\"}}}, {object: {type: {_eq: \"project\"}}}, {type: {_eq: \"xp\"}}]}\n      order_by: {amount:desc} \n    ) {\n      ...HelenaXP\n    }\n    tasksTypes:  transaction(where: { userId: { _eq: 715 }, type: {_like: \"%skill%\"}}){\n        type\n        amount\n      }\n}\n fragment HelenaId on user{\n  login\n  id\n}\n\nfragment HelenaProgress on progress{\n    id\n    grade\n    createdAt\n    updatedAt\n    object {\n    id\n    name\n    campus\n    }\n  }\n  \n  fragment HelenaXP on transaction{\n    amount\n    createdAt\n    object {\n          id\n          name\n        }\n  }",
   variables: {}
 })
 var requestOptions = {
@@ -46,128 +38,127 @@ var requestOptions = {
   body: graphql,
   redirect: 'follow'
 };
-  fetch(
-    'https://learn.01founders.co/api/graphql-engine/v1/graphql',
-    requestOptions
-  )
-      .then(response =>{
-        return response.json();//'then' turns the api reponse promise into a json first, next 'then' turns json 'data' into a native JS object
-      }).then(data => {
-          let typesOfTasks = data.data.tasksTypes;
-          let projectsCount = data.data.progress.length;
-          let xpCount = data.data.transaction.length;
-          console.log("projectsCount>>>>>",projectsCount)
-          console.log("typesOfTasks ----->:", typesOfTasks)
 
-          var i, xpTotal = 0;
-          //sum XP for all projects
-          for(i = 0; i<xpCount; i++){
-            for (let j = 0; j< projectsCount; j++){
-              let progressDate = data.data.progress[j].updatedAt;
-  
-              let transactionsDate = data.data.transaction[i].createdAt;
+fetch("https://learn.01founders.co/api/graphql-engine/v1/graphql", requestOptions)
+  .then(response => response.json())
+  .then(data => {
+    //Helena's code moved inside Salah's getData code:
+    let typesOfTasks = data.data.tasksTypes;
+    let projectsCount = data.data.progress.length;
+    let xpCount = data.data.transaction.length;
+    
+    console.log("projectsCount>>>>>",projectsCount)
+    console.log("typesOfTasks ----->:", typesOfTasks)
 
-              let date1 = progressDate.split(".")
-              let date2 = transactionsDate.split(".")
+    var i, xpTotal = 0;
+    //sum XP for all projects
+    for(i = 0; i<xpCount; i++){
+      for (let j = 0; j< projectsCount; j++){
+        let progressDate = data.data.progress[j].updatedAt;
 
-              //hard-coded for 'math-skills' project as the two dates differ by a fraction of a second
-              if(date1[0] == date2[0] || date1[0]== "2022-05-25T17:18:24" && date2[0]== "2022-05-25T17:18:25"){
-                xpTotal = xpTotal + data.data.transaction[i].amount;
+        let transactionsDate = data.data.transaction[i].createdAt;
 
-              }
-             
-            }
+        let date1 = progressDate.split(".")
+        let date2 = transactionsDate.split(".")
 
-          }
-          let hlogin = data.data.user[0].login;
-          let hId = data.data.user[0].id;
-          let hCampus = data.data.progress[0].object.campus;
-          let totalXP = xpTotal
-          let progName = data.data.progress[0].object.name;
-          let progUpdatedAt = data.data.progress[0].updatedAt;
-          //incorrect, as it assigns the largest xp in array
-          let xpAmount = data.data.transaction[0].amount;
-          let hGrade = data.data.progress[0].grade;
-          //populate an array with profile data
-        let profileHelena = [hlogin,hId,hCampus,totalXP,progName,progUpdatedAt,xpAmount, hGrade];
-          //console.log(profileHelena);
-          //populate the 'Profile' section on 'At-a-glance' tab ==>moved after the 'projects' details to show correct XPs
-          showProfile(profileHelena);
-          //==============Projects' details=========================
-          //get projects details
-          let oneProject, helenaProjects 
-          console.log("how many projects? ",projectsCount)
-          for(let j=0; j<projectsCount; j++){
-          let projectName = data.data.progress[j].object.name;
-          let projectCompleted = data.data.progress[j].updatedAt;
-          let ProjectAmount //xp amount is accessed from the 'transactions' table
-          let ProjectGrade = data.data.progress[j].grade.toFixed(2);
-          for(let x = 0; x<xpCount; x++){
-              let progressDate = data.data.progress[j].updatedAt;
-              let transactionsDate = data.data.transaction[x].createdAt;
-              let date1 = progressDate.split(".");
-              let date2 = transactionsDate.split(".");
-              //hard-coded for 'math-skills' project as the two dates differ by a fraction of a second
-              if(date1[0] == date2[0] || date1[0]== "2022-05-25T17:18:24" && date2[0]== "2022-05-25T17:18:25"){               
-                ProjectAmount = data.data.transaction[x].amount;
-              }
-             
-          }
-          let projectID = data.data.progress[j].object.id;
-          //make an array from each project's data
-          oneProject = [projectName,projectCompleted,ProjectAmount,ProjectGrade,projectID];
-          if(j==0){
-            helenaProjects = new Array(oneProject);
-          }else{
-            helenaProjects.push(oneProject);
-          }
-          }
-          console.log("the helenaProjects array:==>", helenaProjects)
+        //hard-coded for 'math-skills' project as the two dates differ by a fraction of a second
+        if(date1[0] == date2[0] || date1[0]== "2022-05-25T17:18:24" && date2[0]== "2022-05-25T17:18:25"){
+          xpTotal = xpTotal + data.data.transaction[i].amount;
 
-          //get xp for latest project
-          let xpAmountCorrect = helenaProjects[0][2];
-          profileHelena = [hlogin,hId,hCampus,totalXP,progName,progUpdatedAt,xpAmountCorrect, hGrade];
-          //populate the 'Profile' section on 'At-a-glance' tab, including correct XPs
-          showProfile(profileHelena);
-          //console.log("correct XP for last project?===>",profileHelena)
-          //populate the 'Projects list' section of the 'At-a-glance'tab
-            showProjects(helenaProjects)
+        }
+       
+      }
 
-          //populate the 'XP history' SVG line chart (inspiration: https://www.youtube.com/watch?v=RTUZ1VftA5o)
-          XpByProjectLineGraph(helenaProjects,30, 5);
+    }
+    let hlogin = data.data.user[0].login;
+    let hId = data.data.user[0].id;
+    let hCampus = data.data.progress[0].object.campus;
+    let totalXP = xpTotal
+    let progName = data.data.progress[0].object.name;
+    let progUpdatedAt = data.data.progress[0].updatedAt;
+    //incorrect, as it assigns the largest xp in array
+    let xpAmount = data.data.transaction[0].amount;
+    let hGrade = data.data.progress[0].grade;
+    //populate an array with profile data
+  let profileHelena = [hlogin,hId,hCampus,totalXP,progName,progUpdatedAt,xpAmount, hGrade];
+    //console.log(profileHelena);
+    //populate the 'Profile' section on 'At-a-glance' tab ==>moved after the 'projects' details to show correct XPs
+    showProfile(profileHelena);
+    //==============Projects' details=========================
+    //get projects details
+    let oneProject, helenaProjects 
+    console.log("how many projects? ",projectsCount)
+    for(let j=0; j<projectsCount; j++){
+    let projectName = data.data.progress[j].object.name;
+    let projectCompleted = data.data.progress[j].updatedAt;
+    let ProjectAmount //xp amount is accessed from the 'transactions' table
+    let ProjectGrade = data.data.progress[j].grade.toFixed(2);
+    for(let x = 0; x<xpCount; x++){
+        let progressDate = data.data.progress[j].updatedAt;
+        let transactionsDate = data.data.transaction[x].createdAt;
+        let date1 = progressDate.split(".");
+        let date2 = transactionsDate.split(".");
+        //hard-coded for 'math-skills' project as the two dates differ by a fraction of a second
+        if(date1[0] == date2[0] || date1[0]== "2022-05-25T17:18:24" && date2[0]== "2022-05-25T17:18:25"){               
+          ProjectAmount = data.data.transaction[x].amount;
+        }
+       
+    }
+    let projectID = data.data.progress[j].object.id;
+    //make an array from each project's data
+    oneProject = [projectName,projectCompleted,ProjectAmount,ProjectGrade,projectID];
+    if(j==0){
+      helenaProjects = new Array(oneProject);
+    }else{
+      helenaProjects.push(oneProject);
+    }
+    }
+    console.log("the helenaProjects array:==>", helenaProjects)
 
-          //makes an array of skills objects e.g.:{name: 'Golang', skill_points: 310, projects_completed:10, color:'#16FF00'}
-          SkillObjects = skillData(typesOfTasks);
-          console.log("Aggregate points per skill: ====>", SkillObjects);
-          allSkills = 0
-          //sum of all skills' points
-          for (let i=0; i<SkillObjects.length; i++){
-              allSkills += SkillObjects[i].skill_points
-          }
-          console.log("Sum of all skills points:===>",allSkills)
+    //get xp for latest project
+    let xpAmountCorrect = helenaProjects[0][2];
+    profileHelena = [hlogin,hId,hCampus,totalXP,progName,progUpdatedAt,xpAmountCorrect, hGrade];
+    //populate the 'Profile' section on 'At-a-glance' tab, including correct XPs
+    showProfile(profileHelena);
+    //console.log("correct XP for last project?===>",profileHelena)
+    //populate the 'Projects list' section of the 'At-a-glance'tab
+      showProjects(helenaProjects)
 
-          //add event listener to the pie-chart drop-down selection box
-          //let SelectSkill = document.querySelector("#Skills");
-          //SelectSkill.addEventListener("onchange", function(){
-              //skill selected in drop-down box
-              let theSkill = getSkill();
-              console.log("New skill selected: ===",theSkill)
-              //makes pie chart for each skill % of total skills 
-              skillPercentage(theSkill, allSkills, SkillObjects);
+    //populate the 'XP history' SVG line chart (inspiration: https://www.youtube.com/watch?v=RTUZ1VftA5o)
+    XpByProjectLineGraph(helenaProjects,30, 5);
 
-          //make column chart showing my skills
-          //the skills objects e.g.:{name: 'Golang', skill_points: 310, projects_completed:10, color:'#16FF00'}
-          //SkillsBarChart(SkillObjects);
-         // })
+    //makes an array of skills objects e.g.:{name: 'Golang', skill_points: 310, projects_completed:10, color:'#16FF00'}
+    SkillObjects = skillData(typesOfTasks);
+    console.log("Aggregate points per skill: ====>", SkillObjects);
+    AllSkills = 0
+    //sum of all skills' points
+    for (let i=0; i<SkillObjects.length; i++){
+        AllSkills += SkillObjects[i].skill_points
+    }
+    console.log("Sum of all skills points:===>",AllSkills)
 
+    //add event listener to the pie-chart drop-down selection box
+    //SelectSkill = document.querySelector("#Skills");
+    SelectSkill.addEventListener("onchange", function(){
+      console.log("registered onchange");
+        //skill selected in drop-down box
+        TheSkill = getSkill();
+        console.log("New skill selected: ===",TheSkill);
+        //makes pie chart for each skill % of total skills 
+        skillPercentage(TheSkill, AllSkills, SkillObjects);
 
-      })
-      .catch(error => console.log('error', error));
+    //make column chart showing my skills
+    //the skills objects e.g.:{name: 'Golang', skill_points: 310, projects_completed:10, color:'#16FF00'}
+    //SkillsBarChart(SkillObjects);
+   // })
 
 
+})
+  })
+  .catch(error => console.log('error', error));
+})();
 
-
-      //populate the 'Profile' section on 'At-a-glance' tab
+//populate the 'Profile' section on 'At-a-glance' tab
       function showProfile(data){
         console.log("data from showProfile:===>",data)
         var i, helenaProf;
@@ -425,3 +416,5 @@ var requestOptions = {
                       dd + " " + month + " " + yyyy;
                     return fullDate;
                   };
+  
+  
