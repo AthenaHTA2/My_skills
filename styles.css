@@ -356,6 +356,12 @@ g#graph-texts {
   width: 60px;
 }
 
+/*JWT error message*/
+#error-message{
+  display: none;
+  color: mediumvioletred;
+}
+
 /*profile data*/
 #addData{
   align-content: space-evenly;
