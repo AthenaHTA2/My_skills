@@ -97,6 +97,7 @@ section
 /*styles row 1 and row 2 in 'container'*/
 .row
 {
+    background-color:#eaf8da;
     transition: .5s;
     display:flex;
     margin:auto;
@@ -381,6 +382,7 @@ g#graph-texts {
 .rect:hover { opacity: 0.5; }
 
 #Profile {background-color: #eaf8da;}
+#Profile {background-image: url("https://www.transparenttextures.com/patterns/dark-denim-3.png");}
 #Projects {background-color: #cfdcfc;}
 #Projects {background-image: url("https://www.transparenttextures.com/patterns/dark-denim-3.png");}
 #Analysis {background-color: #f7f7f7;}
