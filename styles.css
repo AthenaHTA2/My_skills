@@ -4,18 +4,20 @@
 }
 /*random image on project details tab*/
 img{
+    background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
     margin-left: auto;
     margin-right: auto;
     height: 200px;
     width: 600px;
     border-radius: 50%;
-    background: #d7e3fc;
+    background:  #cfdcfc;
     display:block;
 }
 
 /*turn picture background on project details tab to blue*/
 .color{
-        background-color: #d7e3fc;
+        background-color: #cfdcfc;
+        background-image: url("https://www.transparenttextures.com/patterns/dark-denim-3.png");
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -31,7 +33,6 @@ body, html {
 
 /* Style tab links*/
 .tablink {
-  background-color: #a6ffa1;
   color: #3c096c;
   float: left;
   border: none;
@@ -41,7 +42,8 @@ body, html {
   font-family: 'Sirin Stencil', cursive;
   font-size: 18px;
   width: 50%;
-
+background-color: #cfdcfc;
+background-image: url("https://www.transparenttextures.com/patterns/dark-denim-3.png");
 }
 
 .tablink:hover {
@@ -379,7 +381,8 @@ g#graph-texts {
 .rect:hover { opacity: 0.5; }
 
 #Profile {background-color: #eaf8da;}
-#Projects {background-color:#d7e3fc;}
+#Projects {background-color: #cfdcfc;}
+#Projects {background-image: url("https://www.transparenttextures.com/patterns/dark-denim-3.png");}
 #Analysis {background-color: #f7f7f7;}
 #Charts {background-color: #fffae5;}
 #Instructions {background-color: #C3FF99;}
