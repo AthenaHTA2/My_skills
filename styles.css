@@ -97,11 +97,13 @@ section
 /*styles row 1 and row 2 in 'container'*/
 .row
 {
+    background-image: url("https://www.transparenttextures.com/patterns/dark-denim-3.png");
     background-color:#eaf8da;
     transition: .5s;
     display:flex;
     margin:auto;
     border-top: 10px solid #eaf8da;
+    border-image: url(https://www.transparenttextures.com/patterns/dark-denim-3.png);
 }
 
 /*styles each card*/
