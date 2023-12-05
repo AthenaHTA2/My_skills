@@ -19,7 +19,7 @@
        let maxVal = Math.max(...xpOnly)
         console.log("the maximum value of xp===>",maxVal)
 
-        maxVal = maxVal.toFixed(1)/1000;
+        maxVal = maxVal.toFixed(1)/10000;
         console.log("the largest XP in line graph:--->",maxVal);
  
         //the SVG container dimensions are: 370px * 165px; the container id: #lineGraph
@@ -50,7 +50,7 @@
           let pathString = "M" + widthSvg + " " + heightSvg + " L" + 0 + " " + widthSvg;
             //   
           for (let d = 0; d <numProjects; d++) {
-              const yValue = heightSvg - array[d][2]/1000, xValue = d * frequency+5;
+              const yValue = heightSvg - array[d][2]/10000, xValue = d * frequency+5;
               const newString = " L" + xValue + " " + yValue;
               pathString += newString;
  
@@ -64,7 +64,7 @@
               circleEl.addEventListener("mouseover", (e) => {/*Card.style = `top:-4px; left:0px; display: block;`;*/
               // removed the moving Card:`top:${yValue - 20}px; left:${xValue - 80}px; display: block;`
               //Card.innerHTML = `XP: ${numberWithCommas(array[d][2])} <br>project: ${array[d][0]} <br>date: ${ConvertDate(array[d][1])}`;});
-              Card.innerHTML = `${array[d][0]}` +":  "+ `${(array[d][2]/1000).toFixed(1)}` +"k xp, "+ `${ConvertDate(array[d][1])}`;
+              Card.innerHTML = `${array[d][0]}` +":  "+ `${(array[d][2]/10000).toFixed(1)}` +"k xp, "+ `${ConvertDate(array[d][1])}`;
          
             });
              
@@ -73,7 +73,7 @@
               
             }
               //heightSvg = maxValue + 15px
-              const ends = heightSvg - array[numProjects-1][2]/1000;
+              const ends = heightSvg - array[numProjects-1][2]/10000;
               console.log("heightSvg of the graph:--->",heightSvg)
               console.log("value in 'array' of the graph:--->",array[numProjects-1][2])
               console.log("The end of the graph:--->",ends)
